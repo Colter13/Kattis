@@ -1,0 +1,1 @@
+n = [4-abs(4-i) for i in range(1,8)]
