@@ -1,13 +1,13 @@
-def dfs(a, v, i, j, rows, cols):
+rows, cols = map(int, input().split())
+
+def dfs(a, v, i, j):
     if (i,j) == (rows-1,cols-1):
         return True
     v[i][j] = 1
     for neighbor in a[(i,j)]:
-        if v[neighbor[0]][neighbor[1]] == 0 and dfs(a, v, neighbor[0], neighbor[1], rows, cols):
+        if v[neighbor[0]][neighbor[1]] == 0 and dfs(a, v, neighbor[0], neighbor[1]):
             return True
     return False
-
-rows, cols = map(int, input().split())
 
 # initialize matrix
 m = [list(map(int, input().split())) for i in range(rows)]
@@ -22,6 +22,8 @@ if rows > 1 and m[rows-2][cols-1] < m[rows-1][cols-1]:
 if cols > 1 and m[rows-1][cols-2] < m[rows-1][cols-1]:
     length2 = m[rows-1][cols-1] - m[rows-1][cols-2]
 length = min(length1, length2)
+
+
 
 while True:
     a = {}
@@ -51,11 +53,11 @@ while True:
                 stack.append((i,j-1))
             p[i][j-1] = 1
     v = [[0 for i in range(cols)] for i in range(rows)]
-    if p[rows-1][cols-1] and dfs(a, v, 0, 0, rows, cols):
+    if p[rows-1][cols-1] and dfs(a, v, 0, 0):
         print(length)
         exit()
     length += 1
 
 """
-Somehow have p saved and not reset after each length increase
+Use binary search to find the optimal length.
 """
