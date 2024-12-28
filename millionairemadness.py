@@ -9,23 +9,7 @@ def dfs(a, v, i, j):
             return True
     return False
 
-# initialize matrix
-m = [list(map(int, input().split())) for i in range(rows)]
-
-length = 0
-
-# check to override the baseline length
-length1 = 0
-length2 = 0
-if rows > 1 and m[rows-2][cols-1] < m[rows-1][cols-1]:
-    length1 = m[rows-1][cols-1] - m[rows-2][cols-1]
-if cols > 1 and m[rows-1][cols-2] < m[rows-1][cols-1]:
-    length2 = m[rows-1][cols-1] - m[rows-1][cols-2]
-length = min(length1, length2)
-
-
-
-while True:
+def path(length):
     a = {}
     stack = [(0, 0)]
     p = [[0 for i in range(cols)] for i in range(rows)]
@@ -54,9 +38,42 @@ while True:
             p[i][j-1] = 1
     v = [[0 for i in range(cols)] for i in range(rows)]
     if p[rows-1][cols-1] and dfs(a, v, 0, 0):
-        print(length)
-        exit()
-    length += 1
+        return True
+    return False
+
+# initialize matrix
+m = [list(map(int, input().split())) for i in range(rows)]
+
+min_length = 0
+max_length = 1E9
+mid_length = -1
+
+# check to override the baseline length
+length1 = 0
+length2 = 0
+if rows > 1 and m[rows-2][cols-1] < m[rows-1][cols-1]:
+    length1 = m[rows-1][cols-1] - m[rows-2][cols-1]
+if cols > 1 and m[rows-1][cols-2] < m[rows-1][cols-1]:
+    length2 = m[rows-1][cols-1] - m[rows-1][cols-2]
+min_length = min(length1, length2)
+
+while True:
+    mid_length = (min_length + max_length) // 2
+    if path(mid_length):
+        max_length = mid_length
+    else:
+        min_length = mid_length
+    if max_length == min_length:
+        print(int(min_length))
+        break
+    if (max_length - min_length) == 1:
+        if path(min_length):
+            print(int(min_length))
+        else:
+            print(int(max_length))
+        break
+
+
 
 """
 Use binary search to find the optimal length.
