@@ -2,6 +2,8 @@ letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 key = {ch: i for i, ch in enumerate(letters)}
 reverse_key = dict(enumerate(letters))
 
+print(key)
+
 multiplier = input()
 for _ in range(int(input())):
     encrypted = ''
