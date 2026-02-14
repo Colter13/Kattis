@@ -1,0 +1,22 @@
+n, m = map(int, input().split())
+sizes = [int(input()) for i in range(n)]
+sizes.sort()
+needed = [int(input()) for i in range(m)]
+needed.sort()
+
+wasted = 0
+low = 0
+high = n - 1
+for i in range(m):
+    while low <= high:
+        mid = (low + high) // 2
+        if sizes[mid] < needed[i]:
+            low = mid + 1
+        elif sizes[mid] > needed[i]:
+            high = mid - 1
+    if sizes[mid] < needed[i]:
+        mid += 1
+    wasted += sizes[mid] - needed[i]
+    high = n - 1
+
+print(wasted)
